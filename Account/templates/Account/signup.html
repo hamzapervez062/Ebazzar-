@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+    <link rel="stylesheet" href="{% static 'myapp/css/bootstrap.css' %}">
+	<style>
+		.errorlist{
+			color:red;
+		}
+	</style>
+</head>
+<body>
+	{%if messages%}
+	{%for message in messages%}
+        {%if message.tags%}
+			<div class="alert alert-dismissible fade show" role="alert">
+				<p class="{{message.tags}}">
+                    {{message}}
+                </p>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{%endif%}
+	{%endfor%}
+	{%endif%}
+
+
+	<section class="h-100">
+		<div class="container h-100">
+			<div class="row justify-content-sm-center h-100">
+				<div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+					<div class="text-center my-5">
+						<img src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="logo" width="100">
+					</div>
+					<div class="card shadow-lg">
+						<div class="card-body p-5">
+							<h1 class="fs-4 card-title fw-bold mb-4">Signup</h1>
+							<form method="POST"  novalidate autocomplete="off">
+								{% csrf_token %}
+								{{form.non_field_errors}}
+								{%for field in form%}
+									<div class="mb-3">
+										{{field.label_tag}} 
+										{{field}} 
+										{%if field.errors%}
+											<div class="errorlist">
+												{{field.errors|striptags}}
+											</div>
+										{%endif%}
+									</div>
+								{%endfor%}
+
+								<div class="d-flex align-items-center">
+									<button type="submit" class="btn btn-primary ms-auto">
+										Login
+									</button>
+								</div>
+							</form>
+						</div>
+						<div class="card-footer py-3 border-0">
+							<div class="text-center">
+								Already have an account? <a href="{%url 'login'%}" class="text-dark">Signin</a>
+							</div>
+						</div>
+					</div>
+					<div class="text-center mt-5 text-muted">
+						Copyright &copy; 2017-2021 &mdash; Your Company 
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+    <script src="{%static 'myapp/js/jquery.js'%}"></script>
+    <script src="{%static 'myapp/js/popper.js'%}"></script>
+    <script src="{%static 'myapp/js/bootstrap.js'%}"></script>
+    
+    
+</body>
+</html>

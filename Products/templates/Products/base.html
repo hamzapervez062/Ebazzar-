@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="max-age=604800" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>GreatKart | One of the Biggest Online Shopping Platform</title>
+
+<link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" type="image/x-icon">
+
+<!-- jQuery -->
+<script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+
+<!-- Bootstrap4 files-->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+
+<!-- Font awesome 5 -->
+<link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+
+<!-- custom style -->
+<link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+
+<!-- custom javascript -->
+<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+
+<script type="text/javascript">
+/// some script
+
+// jquery ready start
+$(document).ready(function() {
+	// jQuery code
+
+}); 
+// jquery end
+</script>
+<style>
+{% comment %} Start rating {% endcomment %}
+
+.rating-star{
+	background: green;
+    padding: 3px;
+    padding-left: 7px;
+    width: 57px;
+    border-radius: 5px;
+    color: white;
+
+}
+
+/* Rating */
+
+.rating {
+	background: none;
+	border-radius: 25px;
+	padding-top:10px;
+	cursor: pointer;
+	
+}
+
+.rating input {
+	display: none;
+}
+
+.rating label {
+	font-size: 0;
+}
+
+.rating label.stars::before{
+	content: '';
+	display: block;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.rating label.stars::before {
+	background:  url({% static 'images/icons/star-solid.svg' %}) no-repeat center center;
+	background-size: 20px;
+}
+
+
+
+/* Hover effect */
+.rating.effect input:checked + label ~ label.stars::before, .rating.effect:hover input:hover + label ~ label.stars::before {
+	background: url({% static 'images/icons/star-regular.svg' %}) no-repeat center center;
+	background-size: 20px;
+	opacity: .3;
+}
+
+.rating.effect:hover input + label ~ label.stars::before {
+	background: url({% static 'images/icons/star-solid.svg' %}) no-repeat center center;
+	background-size: 20px;
+}
+
+{% comment %} Sale  {% endcomment %}
+.wrap {
+	width: 100%;
+	height: 188px;
+	position: absolute;
+	top: -8px;
+	left: 8px;
+	overflow: hidden;
+}
+
+.wrap:before,
+.wrap:after {
+	content: "";
+	position: absolute;
+}
+
+.wrap:before {
+	width: 40px;
+	height: 8px;
+	right: 100px;
+	background: #4d6530;
+	border-radius: 8px 8px 0px 0px;
+}
+
+.wrap:after {
+	width: 8px;
+	height: 40px;
+	right: 0px;
+	top: 100px;
+	background: #4d6530;
+	border-radius: 0px 8px 8px 0px;
+}
+
+.ribbon6 {
+	width: 200px;
+	height: 40px;
+	line-height: 40px;
+	position: absolute;
+	top: 30px;
+	right: -50px;
+	z-index: 2;
+	overflow: hidden;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+	border: 1px dashed;
+	box-shadow: 0 0 0 3px #00b517, 0px 21px 5px -18px rgba(0, 0, 0, 0.6);
+	background: #00b517;
+	text-align: center;
+}
+
+.ribbon6 {
+	color: #fff;
+	font-size: 16px;
+	font-weight: bold;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	text-transform: uppercase;
+}
+
+@media (min-width: 500px) {
+	.ribbons-wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+	.ribbon {
+		width: 30%;
+	}
+}
+</style>
+
+</head>
+<body>
+<header class="section-header">
+<section class="header-main border-bottom">
+	<div class="container">
+<div class="row align-items-center">
+	<div class="col-lg-2 col-md-3 col-6">
+		<a href="{% url 'homelist' %}" class="brand-wrap">
+			<img class="logo" src="{%static 'images/logo.png' %}">
+		</a> <!-- brand-wrap.// -->
+	</div>
+	<div class="col-lg col-sm col-md col-6 flex-grow-0">
+		<div class="category-wrap dropdown d-inline-block float-right">
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"> 
+				<i class="fa fa-bars"></i> All category 
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="{% url 'store' %}">All Products</a>
+				{% for cat in categories %}
+				{% comment %} <a class="dropdown-item" href="{% url 'storeview' cat.slug %}">{{cat}}</a> {% endcomment %}
+				<a class="dropdown-item" href="{{cat.get_absolute_url}}">{{cat}}</a>
+				{% endfor %}
+			</div>
+		</div>  <!-- category-wrap.// -->
+	</div> <!-- col.// -->
+	<a href="{% url 'store' %}" class="btn btn-outline-primary">Store</a>
+	<div class="col-lg  col-md-6 col-sm-12 col">
+		{% comment %} Search Bar {% endcomment %}
+
+		<form action="{% url 'search' %}" class="search" method="GET" >
+			<div class="input-group w-100">
+			    <input type="text" class="form-control"  name="keyword" style="width:60%;" placeholder="Search">
+			    <div class="input-group-append">
+			      <button class="btn btn-primary" type="submit">
+			        <i class="fa fa-search"></i>
+			      </button>
+			    </div>
+		    </div>
+		</form> <!-- search-wrap .end// -->
+
+	</div> <!-- col.// -->
+	<div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
+				<div class="d-flex justify-content-end mb-3 mb-lg-0">
+					<div class="widget-header">
+
+						{% if user.is_anonymous%}
+						<small class="title text-muted">Welcome guest!</small>
+						<div> 
+							<a href="{%url 'login'%}">Sign in</a> <span class="dark-transp"> | </span>
+							<a href="{%url 'signup'%}"> Register</a>
+						</div>
+						{% else %}
+						<small class="title text-muted">Welcome {{user.first_name}}!</small>
+						<div> 
+							<a href="{%url 'dashboard'%}">Profile</a> <span class="dark-transp"> | </span>
+							<a href="{%url 'logout'%}"> Logout</a>
+						</div>
+						{% endif %}
+					</div>
+					<a href="{% url 'cartview'%}" class="widget-header pl-3 ml-3">
+						<div class="icon icon-sm rounded-circle border"><i class="fas fa-shopping-bag"></i></div>
+						<span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
+					</a>
+					{% comment %} <a href="./notification.html" class="widget-header pl-3 ml-3">
+						<div class="icon icon-sm rounded-circle border"><i class="fa fa-bell" aria-hidden="true"></i></div>
+						<span class="badge badge-pill badge-danger notify">1</span>
+					</a> {% endcomment %}
+					
+				</div> <!-- widgets-wrap.// -->
+			</div> <!-- col.// -->
+</div> <!-- row.// -->
+	</div> <!-- container.// -->
+</section> <!-- header-main .// -->
+</header> <!-- section-header.// -->
