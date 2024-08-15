@@ -6,6 +6,7 @@ from Cart.models import Cart
 from .models import Product, Category, Review
 from django.views.generic import ListView, DetailView
 from Account.models import Profile
+from django.db.models import Avg
 
 # Create your views here.
 
@@ -22,6 +23,9 @@ class homeListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        clicked_items = self.request.session.get('clicked_item_ids', [])
+        print(clicked_items, 'clicked_items')	
+        context['clicked_items'] = Product.objects.filter(id__in=clicked_items)
         context['categories'] = Category.objects.all()
         context['products'] = Product.objects.all().order_by('-created_at')[:8] # it will show the latest 6 products
 
@@ -36,6 +40,7 @@ class homeListView(ListView):
             product_reviews = Review.objects.filter(product=product)  
             product.average_rating = product_reviews.aggregate(Avg('review_rating', default=0))['review_rating__avg']
             print(product.average_rating)
+        
         return context
     
    
@@ -61,7 +66,6 @@ class Store(ListView):
 
     def get_queryset(self):
         return Product.objects.all().order_by('-created_at')
-    
   
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -120,16 +124,13 @@ def PriceRange(request):
         products = Product.objects.filter(price__lte=max_price)
     else:
         products = Product.objects.all()
-
-        
+     
     products_count = products.count()
     context = {
         'products': products,
         'products_count': products_count,
     }
     return render(request, 'Products/store.html', context)
-
-from django.db.models import Avg
 
 #Detail of each Product
 class ProductDetails(DetailView):
@@ -155,6 +156,7 @@ class ProductDetails(DetailView):
         max_rating = 5
         context['max_rating'] = range(max_rating)      
         return context
+
     
 def ReviewSubmit(request, post, slug):
     product =  Product.objects.get(slug=slug)

@@ -12,8 +12,6 @@ from Products.models import Category, Product
 from Order.models import Order_item, Paymentinfo, Shippinginfo
 from .forms import ProfileForm
 from .models import Profile, CustomUser
-
-
 # Verification email
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string

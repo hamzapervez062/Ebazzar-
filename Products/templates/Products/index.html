@@ -16,14 +16,30 @@
 <section class="section-name padding-y-sm">
 <div class="container">
 
+	<header class="section-heading">
+		<h3 class="section-title">Recently Visited
+		</h3>
+	</header><!-- sect-heading -->
+	<div class="row">
+		{% for product in clicked_items|slice:":4"%}
+		<div class="col-md-3">
+			<div class="card card-product-grid">
+				<a href="{% url 'productdetail' product.category.slug product.slug %}" class="img-wrap"> <img src="{{product.image.url}}"> </a>
+				<figcaption class="info-wrap">
+					<a href="{% url 'productdetail' product.category.slug product.slug %}" class="title">{{product.title}}</a>
+				</figcaption>
+			</div>
+		</div> <!-- col.// -->
+		{% endfor %}
+	</div> <!-- row.// -->
+
+
 <header class="section-heading">
 	<a href=".{% url 'store' %}" class="btn btn-outline-primary float-right">See all</a>
-	<h3 class="section-title">Popular products</h3>
+	<h3 class="section-title">Latest products</h3>
 </header><!-- sect-heading -->
 <div class="row">
-
 	{% for product in products %}
-
 	<div class="col-md-3">
 		<div class="card card-product-grid">
 			<a href="{% url 'productdetail' product.category.slug product.slug %}" class="img-wrap"> <img src="{{product.image.url}}"> </a>

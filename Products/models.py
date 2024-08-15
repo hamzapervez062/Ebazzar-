@@ -17,6 +17,9 @@ class Category(models.Model):
     ('Shorts', 'Shorts'),
     ('Socks', 'Socks'),
     ('Shoes', 'Shoes'),
+    ('Parse', 'Parse'),
+    ('Heals', 'Heals'),
+
 
 )
     title = models.CharField(max_length=255, choices=CATEGORY_CHOICES)
@@ -79,14 +82,10 @@ class Product(models.Model):
         return self.title
     
 rating_choices = (
-    (1, '1'),
-    (1.5, '1.5'),	
+    (1, '1'),	
     (2, '2'),
-    (2.5, '2.5'),
     (3, '3'),
-    (3.5, '3.5'),
     (4, '4'),
-    (4.5, '4.5'),
     (5, '5'),
 )
     
