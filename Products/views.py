@@ -7,7 +7,7 @@ from .models import Product, Category, Review
 from django.views.generic import ListView, DetailView
 from Account.models import Profile
 from django.db.models import Avg
-
+from django.db.models import Case, When
 # Create your views here.
 
 #it for index page to show all list of items
@@ -24,8 +24,15 @@ class homeListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         clicked_items = self.request.session.get('clicked_item_ids', [])
-        print(clicked_items, 'clicked_items')	
-        context['clicked_items'] = Product.objects.filter(id__in=clicked_items)
+        # context['clicked_items'] = Product.objects.filter(id__in=clicked_items)
+
+         # Use Case and When to order the products based on clicked_items list
+        ordering = Case(*[When(id=pk, then=pos) for pos, pk in enumerate(clicked_items)])
+        
+        context['clicked_items'] = Product.objects.filter(id__in=clicked_items).order_by(ordering)
+        print(clicked_items, 'clicked_items')
+        print( Product.objects.filter(id__in=clicked_items))
+
         context['categories'] = Category.objects.all()
         context['products'] = Product.objects.all().order_by('-created_at')[:8] # it will show the latest 6 products
 
@@ -39,7 +46,7 @@ class homeListView(ListView):
         for product in context['products']:
             product_reviews = Review.objects.filter(product=product)  
             product.average_rating = product_reviews.aggregate(Avg('review_rating', default=0))['review_rating__avg']
-            print(product.average_rating)
+            print(product.average_rating, "rating")
         
         return context
     
